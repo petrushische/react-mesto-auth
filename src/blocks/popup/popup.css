@@ -1,0 +1,21 @@
+.popup {
+  /* display: none; */
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, .5);
+  width: 100%;
+  font-size: 0;
+  justify-content: center;
+  position: fixed;
+  transition: opacity 1s ease-out;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 470px) {
+  .popup {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}
