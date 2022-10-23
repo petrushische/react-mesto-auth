@@ -5,7 +5,7 @@ import api from "../utils/Api";
 
 import Card from "../Card/Card";
 
-function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
+function Main({ onEditProfile, onAddPlace, onEditAvatar, onDeleteCard }) {
  let [userName, setUserName] = React.useState();
  let [userDescription, setUserDescription] = React.useState();
  let [userAvatar, setUserAvatar] = React.useState();
@@ -48,7 +48,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
    <section className="foto-grid" aria-label="Карточки">
     <ul className="foto-grid__elements">
      {cards.map((elem) => (
-      <Card card={elem} key={elem._id} />
+      <Card card={elem} key={elem._id} onDeleteCardForCard={onDeleteCard} />
      ))}
     </ul>
    </section>

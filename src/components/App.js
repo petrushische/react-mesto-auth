@@ -13,6 +13,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = React.useState(false)
   function handleEditAvatarClick() {
     setIsEditProfilePopupOpen(true)
   }
@@ -23,36 +24,32 @@ function App() {
   function handleAddPlaceClick() {
     setIsEditAvatarPopupOpen(true)
   }
+  function handleDeleteCard() {
+    setIsDeleteCardPopupOpen(true)
+  }
   // обработчик закрытия поп апов
-  /* function closeAllPopups() {
-     setIsEditProfilePopupOpen(false)
-     setIsAddPlacePopupOpen(false)
-     setIsEditAvatarPopupOpen(false)
-   }*/
-  function closeVanPopups() {
+  function closeAllPopups() {
     setIsEditProfilePopupOpen(false)
-  }
-  function closeTwoPopups() {
     setIsAddPlacePopupOpen(false)
-  }
-  function closeThreePopups() {
     setIsEditAvatarPopupOpen(false)
+    setIsDeleteCardPopupOpen(false)
   }
+
 
   return (
     <>
       <div className="page">
         <Header />
-        <Main onEditProfile={handleEditAvatarClick} onAddPlace={handleEditProfileClick} onEditAvatar={handleAddPlaceClick} />
+        <Main onEditProfile={handleEditAvatarClick} onAddPlace={handleEditProfileClick} onEditAvatar={handleAddPlaceClick} onDeleteCard={handleDeleteCard} />
         <Footer />
       </div>
-      <PopupWithForm title='Редактировать профиль' name='_change_profile' jsx={popupChangeProfile} isOpen={isEditProfilePopupOpen ? 'popup__opened' : ''} onClose={closeVanPopups}
+      <PopupWithForm title='Редактировать профиль' name='_change_profile' jsx={popupChangeProfile} isOpen={isEditProfilePopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups}
       />
-      <PopupWithForm title='Новое место' name='_cards_add' jsx={popupCardsAdd} isOpen={isAddPlacePopupOpen ? 'popup__opened' : ''} onClose={closeTwoPopups}
+      <PopupWithForm title='Новое место' name='_cards_add' jsx={popupCardsAdd} isOpen={isAddPlacePopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups}
       />
-      <PopupWithForm title='Обновить аватар' name='_avatar_delete' jsx={popupChangeFoto} isOpen={isEditAvatarPopupOpen ? 'popup__opened' : ''} onClose={closeThreePopups}
+      <PopupWithForm title='Обновить аватар' name='_avatar_delete' jsx={popupChangeFoto} isOpen={isEditAvatarPopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups}
       />
-      { /*Здесь попап удаления карточки*/}
+      <PopupWithForm title='Вы уверены?' name='_card_delete' jsx='' isOpen={isDeleteCardPopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups} />
       <ImagePopup />
 
 
