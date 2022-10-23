@@ -55,17 +55,7 @@ function App() {
       { /*Здесь попап удаления карточки*/}
       <ImagePopup />
 
-      <template id="template-card">
-        <li className="foto-grid__element">
-          <button className="foto-grid__trash" type="button"></button>
-          <img className="foto-grid__foto" />
-          <div className="foto-grid__title">
-            <h2 className="foto-grid__title-text"></h2>
-            <button className="foto-grid__button" type="button"></button>
-            <span className="foto-grid__counter"></span>
-          </div>
-        </li>
-      </template>
+
     </>
   );
 }
