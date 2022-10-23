@@ -7,8 +7,6 @@ import Footer from "./Footer/Footer";
 import PopupWithForm from "./PopupWithForm/PopupWithForm";
 import ImagePopup from "./ImagePopup/ImagePopup";
 import { popupCardsAdd, popupChangeProfile, popupChangeFoto } from "./PopupWithForm/PopupWithForm";
-//обработчики попапов
-
 
 function App() {
   //состояния для открытия попАпов
