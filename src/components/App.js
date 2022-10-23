@@ -13,7 +13,8 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-  const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = React.useState(false)
+  const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState();
   function handleEditAvatarClick() {
     setIsEditProfilePopupOpen(true)
   }
@@ -27,20 +28,22 @@ function App() {
   function handleDeleteCard() {
     setIsDeleteCardPopupOpen(true)
   }
+  function handleCardClick(url) {
+    setSelectedCard(url)
+  }
   // обработчик закрытия поп апов
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false)
     setIsAddPlacePopupOpen(false)
     setIsEditAvatarPopupOpen(false)
     setIsDeleteCardPopupOpen(false)
+    setSelectedCard('')
   }
-
-
   return (
     <>
       <div className="page">
         <Header />
-        <Main onEditProfile={handleEditAvatarClick} onAddPlace={handleEditProfileClick} onEditAvatar={handleAddPlaceClick} onDeleteCard={handleDeleteCard} />
+        <Main onEditProfile={handleEditAvatarClick} onAddPlace={handleEditProfileClick} onEditAvatar={handleAddPlaceClick} onDeleteCard={handleDeleteCard} onCardClick={handleCardClick} />
         <Footer />
       </div>
       <PopupWithForm title='Редактировать профиль' name='_change_profile' jsx={popupChangeProfile} isOpen={isEditProfilePopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups}
@@ -50,7 +53,7 @@ function App() {
       <PopupWithForm title='Обновить аватар' name='_avatar_delete' jsx={popupChangeFoto} isOpen={isEditAvatarPopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups}
       />
       <PopupWithForm title='Вы уверены?' name='_card_delete' jsx='' isOpen={isDeleteCardPopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups} />
-      <ImagePopup />
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={selectedCard ? 'popup__opened' : ''} />
 
 
     </>

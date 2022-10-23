@@ -1,12 +1,11 @@
-import { keyboard } from "@testing-library/user-event/dist/keyboard";
 import React from "react";
 
-function ImagePopup() {
+function ImagePopup({ card, onClose, isOpen }) {
  return (
-  <div className="popup popup_sprint_five">
+  <div className={`popup popup_sprint_five ${isOpen}`}>
    <div className="popup__wrapper">
-    <button className="popup__button" type="button"></button>
-    <img className="popup__foto" />
+    <button className="popup__button" type="button" onClick={onClose}></button>
+    <img className="popup__foto" src={card} />
     <p className="popup__text"></p>
    </div>
   </div>
