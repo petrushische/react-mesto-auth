@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
-import avatarHeader from '../../images/Avatar.png'
 
-import api from "../utils/Api";
+import api from "../../utils/api";
 
 import Card from "../Card/Card";
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, onDeleteCard, onCardClick }) {
-  let [userName, setUserName] = React.useState();
-  let [userDescription, setUserDescription] = React.useState();
-  let [userAvatar, setUserAvatar] = React.useState();
+  const [userName, setUserName] = React.useState(null);
+  const [userDescription, setUserDescription] = React.useState(null);
+  const [userAvatar, setUserAvatar] = React.useState(null);
   const [cards, setCards] = React.useState([]);
 
   useEffect(() => {
@@ -17,7 +16,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onDeleteCard, onCardCli
         setUserName(res.name);
         setUserDescription(res.about);
         setUserAvatar(res.avatar);
-      })
+      }, [])
   })
   useEffect(() => {
     api.cards()

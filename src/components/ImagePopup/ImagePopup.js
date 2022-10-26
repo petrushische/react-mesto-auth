@@ -5,8 +5,8 @@ function ImagePopup({ card, onClose, isOpen }) {
   <div className={`popup popup_sprint_five ${isOpen}`}>
    <div className="popup__wrapper">
     <button className="popup__button" type="button" onClick={onClose}></button>
-    <img className="popup__foto" src={card} />
-    <p className="popup__text"></p>
+    <img className="popup__foto" src={card[0]} />
+    <p className="popup__text">{card[1]}</p>
    </div>
   </div>
  )

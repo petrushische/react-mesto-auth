@@ -6,7 +6,7 @@ import Footer from "./Footer/Footer";
 
 import PopupWithForm from "./PopupWithForm/PopupWithForm";
 import ImagePopup from "./ImagePopup/ImagePopup";
-import { popupCardsAdd, popupChangeProfile, popupChangeFoto } from "./PopupWithForm/PopupWithForm";
+/*import { popupCardsAdd, popupChangeProfile, popupChangeFoto } from "./PopupWithForm/PopupWithForm";*/
 
 function App() {
   //состояния для открытия попАпов
@@ -14,7 +14,8 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState();
+  const [selectedCard, setSelectedCard] = React.useState(false);
+
   function handleEditAvatarClick() {
     setIsEditProfilePopupOpen(true)
   }
@@ -28,8 +29,9 @@ function App() {
   function handleDeleteCard() {
     setIsDeleteCardPopupOpen(true)
   }
-  function handleCardClick(url) {
-    setSelectedCard(url)
+  function handleCardClick(url, text) {
+    setSelectedCard([url, text])
+    console.log(selectedCard)
   }
   // обработчик закрытия поп апов
   function closeAllPopups() {
@@ -37,7 +39,7 @@ function App() {
     setIsAddPlacePopupOpen(false)
     setIsEditAvatarPopupOpen(false)
     setIsDeleteCardPopupOpen(false)
-    setSelectedCard('')
+    setSelectedCard(false)
   }
   return (
     <>
@@ -46,31 +48,8 @@ function App() {
         <Main onEditProfile={handleEditAvatarClick} onAddPlace={handleEditProfileClick} onEditAvatar={handleAddPlaceClick} onDeleteCard={handleDeleteCard} onCardClick={handleCardClick} />
         <Footer />
       </div>
-      <PopupWithForm title='Редактировать профиль' name='_change_profile' jsx={popupChangeProfile} isOpen={isEditProfilePopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups}
-      />
-      <PopupWithForm title='Новое место' name='_cards_add' jsx={popupCardsAdd} isOpen={isAddPlacePopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups}
-      />
-      <PopupWithForm title='Обновить аватар' name='_avatar_delete' jsx={popupChangeFoto} isOpen={isEditAvatarPopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups}
-      />
-      <PopupWithForm title='Вы уверены?' name='_card_delete' jsx='' isOpen={isDeleteCardPopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups} />
-      <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={selectedCard ? 'popup__opened' : ''} />
-
-
-    </>
-  );
-}
-
-export default App;
-
-
-
-
-// Редактирование полей профиля
-{/* <div className="popup ">
-        <button className="popup__close" type="button"></button>
-        <form className="popup__container" name="popup__container" noValidate>
-          <h2 className="popup__title">Редактировать профиль</h2>
-
+      <PopupWithForm title='Редактировать профиль' name='_change_profile' isOpen={isEditProfilePopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups} >
+        <>
           <input
             name="name"
             id="change-one"
@@ -79,6 +58,7 @@ export default App;
             required
             minLength="2"
             maxLength="40"
+            placeholder="Имя"
           />
           <span className="popup__error change-one-error"></span>
 
@@ -90,80 +70,36 @@ export default App;
             required
             minLength="2"
             maxLength="200"
+            placeholder="Описание"
           />
           <span className="popup__error change-two-error"></span>
-          <button className="popup__save">Сохранить</button>
-        </form>
-      </div> 
-*/}
-
-
-
-
-// Добавление карточек 
-{/*<div className="popup popup_cards_add">
-        <button
-          className="popup__close popup__close_cards_add"
-          type="button"
-        ></button>
-        <form
-          className="popup__container popup__container_cards_add"
-          name="cards_add"
-          noValidate
-        >
-          <h2 className="popup__title popup__title-cards-add">Новое место</h2>
-          <input
-            name="name"
-            id="change-three"
-            type="text"
-            className="popup__input popup__input-cards-add-name"
-            placeholder="Название"
-            required
-            minLength="2"
-            maxLength="30"
-          />
-          <span className="popup__error change-three-error"></span>
-          <input
-            name="about"
-            id="change-four"
-            type="url"
-            className="popup__input popup__input-cards-add-link"
-            placeholder="Ссылка на картинку"
-            required
-          />
-          <span className="popup__error change-four-error"></span>
-          <button className="popup__save">Сохранить</button>
-        </form>
-      </div>
-*/}
-
-
-// Удаление карточек 
-{/*   <div className="popup popup_card_delete">
-        <button
-          className="popup__close popup__close_card_delete"
-          type="button"
-        ></button>
-        <form className="popup__container popup__container_card_delete">
-          <h2 className="popup__title popup__title_card_delete">Вы уверены?</h2>
-          <button className="popup__save popup__save_card_delete">Да</button>
-        </form>
-      </div>
-*/}
-
-// Редактирование Профиля картинки
-
-{/*  <div className="popup popup_avatar_delet">
-        <button
-          className="popup__close popup__close_avatar_delete"
-          type="button"
-        ></button>
-        <form
-          className="popup__container popup__container_avatar_delete"
-          name="avatar_delete"
-          noValidate
-        >
-          <h2 className="popup__title">Обновить аватар</h2>
+        </>
+      </PopupWithForm>
+      <PopupWithForm title='Новое место' name='_cards_add' isOpen={isAddPlacePopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups}> <>
+        <input
+          name="name"
+          id="change-three"
+          type="text"
+          className="popup__input popup__input-cards-add-name"
+          placeholder="Название"
+          required
+          minLength="2"
+          maxLength="30"
+        />
+        <span className="popup__error change-three-error"></span>
+        <input
+          name="about"
+          id="change-four"
+          type="url"
+          className="popup__input popup__input-cards-add-link"
+          placeholder="Ссылка на картинку"
+          required
+        />
+        <span className="popup__error change-four-error"></span>
+      </>
+      </PopupWithForm>
+      <PopupWithForm title='Обновить аватар' name='_avatar_delete' isOpen={isEditAvatarPopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups}>
+        <>
           <input
             name="avatar"
             id="change-five"
@@ -173,19 +109,12 @@ export default App;
             required
           />
           <span className="popup__error change-five-error"></span>
-          <button className="popup__save popup__save_avatar_delete">Сохранить</button>
-        </form>
-      </div>
-*/}
+        </>
+      </PopupWithForm>
+      <PopupWithForm title='Вы уверены?' name='_card_delete' isOpen={isDeleteCardPopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups} />
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={selectedCard ? 'popup__opened' : ''} />
+    </>
+  );
+}
 
-
-// Биг попап с картинкой 
-{/*
-<div className="popup popup_sprint_five">
-        <div className="popup__wrapper">
-          <button className="popup__button" type="button"></button>
-          <img className="popup__foto" />
-          <p className="popup__text"></p>
-        </div>
-      </div>
-*/}
+export default App;

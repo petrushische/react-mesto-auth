@@ -5,7 +5,7 @@ import like from '../../images/Like1.svg'
 
 function Card({ card, onDeleteCardForCard, onCardClick }) {
  function handleClick() {
-  onCardClick(card.link)
+  onCardClick(card.link, card.name)
  }
  return (
   <li className="foto-grid__element">

@@ -1,6 +1,7 @@
 .foto-grid__button {
-  margin-right: 8.94%;
-  margin-top: 2.03%;
+  position: absolute;
+  top: 2px;
+  right: 21px;
   border: none;
   background-color: initial;
   padding: 0;
