@@ -14,7 +14,7 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState({});
 
   function handleEditAvatarClick() {
     setIsEditProfilePopupOpen(true)
@@ -30,16 +30,16 @@ function App() {
     setIsDeleteCardPopupOpen(true)
   }
   function handleCardClick(url, text) {
-    setSelectedCard([url, text])
-    console.log(selectedCard)
+    setSelectedCard({ url, text })
   }
+
   // обработчик закрытия поп апов
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false)
     setIsAddPlacePopupOpen(false)
     setIsEditAvatarPopupOpen(false)
     setIsDeleteCardPopupOpen(false)
-    setSelectedCard(false)
+    setSelectedCard({})
   }
   return (
     <>
@@ -49,33 +49,31 @@ function App() {
         <Footer />
       </div>
       <PopupWithForm title='Редактировать профиль' name='_change_profile' isOpen={isEditProfilePopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups} >
-        <>
-          <input
-            name="name"
-            id="change-one"
-            type="text"
-            className="popup__input popup__input_type_name"
-            required
-            minLength="2"
-            maxLength="40"
-            placeholder="Имя"
-          />
-          <span className="popup__error change-one-error"></span>
+        <input
+          name="name"
+          id="change-one"
+          type="text"
+          className="popup__input popup__input_type_name"
+          required
+          minLength="2"
+          maxLength="40"
+          placeholder="Имя"
+        />
+        <span className="popup__error change-one-error"></span>
 
-          <input
-            name="about"
-            id="change-two"
-            type="text"
-            className="popup__input popup__input_type_text"
-            required
-            minLength="2"
-            maxLength="200"
-            placeholder="Описание"
-          />
-          <span className="popup__error change-two-error"></span>
-        </>
+        <input
+          name="about"
+          id="change-two"
+          type="text"
+          className="popup__input popup__input_type_text"
+          required
+          minLength="2"
+          maxLength="200"
+          placeholder="Описание"
+        />
+        <span className="popup__error change-two-error"></span>
       </PopupWithForm>
-      <PopupWithForm title='Новое место' name='_cards_add' isOpen={isAddPlacePopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups}> <>
+      <PopupWithForm title='Новое место' name='_cards_add' isOpen={isAddPlacePopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups}>
         <input
           name="name"
           id="change-three"
@@ -96,23 +94,20 @@ function App() {
           required
         />
         <span className="popup__error change-four-error"></span>
-      </>
       </PopupWithForm>
       <PopupWithForm title='Обновить аватар' name='_avatar_delete' isOpen={isEditAvatarPopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups}>
-        <>
-          <input
-            name="avatar"
-            id="change-five"
-            type="url"
-            className="popup__input popup__input_avatar_delete"
-            placeholder="Ссылка на картинку"
-            required
-          />
-          <span className="popup__error change-five-error"></span>
-        </>
+        <input
+          name="avatar"
+          id="change-five"
+          type="url"
+          className="popup__input popup__input_avatar_delete"
+          placeholder="Ссылка на картинку"
+          required
+        />
+        <span className="popup__error change-five-error"></span>
       </PopupWithForm>
       <PopupWithForm title='Вы уверены?' name='_card_delete' isOpen={isDeleteCardPopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups} />
-      <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={selectedCard ? 'popup__opened' : ''} />
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={Object.entries(selectedCard).length === 0 ? '' : 'popup__opened'} />
     </>
   );
 }

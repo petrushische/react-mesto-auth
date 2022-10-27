@@ -16,16 +16,15 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onDeleteCard, onCardCli
         setUserName(res.name);
         setUserDescription(res.about);
         setUserAvatar(res.avatar);
-      }, [])
-  })
+      })
+      .catch((err) => console.log(`Ошибка${err}`))
+  }, [])
   useEffect(() => {
     api.cards()
       .then((res) => {
-        const data = res.map((elem) => {
-          return elem
-        })
-        setCards(data)
+        setCards(res)
       })
+      .catch((err) => console.log(`Ошибка${err}`))
   }, [])
   return (
     <main className="main">

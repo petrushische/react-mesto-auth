@@ -1,11 +1,11 @@
 const key = '419bb80a-4ebd-4553-87ef-7a869fedad61'
 
-
+const url = 'https://mesto.nomoreparties.co/v1/cohort-51'
 
 export class Api {
   constructor(options) {
     this._authorization = options.authorization;
-    this._url = 'nomoreparties.co/v1/cohort-51'
+    this._url = options.url;
   }
   _returnPromise(res) {
     if (res.ok) {
@@ -16,7 +16,7 @@ export class Api {
   }
   // Запрос получения данных пользователя
   userInformationGet() {
-    return fetch(`https://${this._url}/users/me`, {
+    return fetch(`${this._url}/users/me`, {
       headers: {
         authorization: this._authorization
       }
@@ -25,7 +25,7 @@ export class Api {
   }
   // Данные всех карточек
   cards() {
-    return fetch(`https://${this._url}/cards`, {
+    return fetch(`${this._url}/cards`, {
       headers: {
         authorization: this._authorization
       }
@@ -34,7 +34,7 @@ export class Api {
   }
   // Сохранение данных пользователя на сервере PATCH
   userInformationPath({ name, about }) {
-    return fetch(`https://${this._url}/users/me`, {
+    return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: {
         authorization: this._authorization,
@@ -49,7 +49,7 @@ export class Api {
   }
   // Моя карточка
   cardPost(name, src) {
-    return fetch(`https://mesto.${this._url}/cards`, {
+    return fetch(`${this._url}/cards`, {
       method: 'POST',
       headers: {
         authorization: this._authorization,
@@ -65,7 +65,7 @@ export class Api {
   }
   // Запрос удаления карточки
   deleteCard(id) {
-    return fetch(`https://mesto.${this._url}/cards/${id}`, {
+    return fetch(`${this._url}/cards/${id}`, {
       method: 'DELETE',
       headers: {
         authorization: this._authorization,
@@ -75,7 +75,7 @@ export class Api {
   }
   // Работа с лайками карточки
   changeLikeCard(id, islike) {
-    return fetch(`https://mesto.${this._url}/cards/${id}/likes`, {
+    return fetch(`${this._url}/cards/${id}/likes`, {
       method: islike ? 'DELETE' : 'PUT',
       headers: {
         authorization: this._authorization,
@@ -85,7 +85,7 @@ export class Api {
   }
   // PATCH Запрос редактирования фотографии
   changeAvatar(avatar) {
-    return fetch(`https://mesto.${this._url}/users/me/avatar`, {
+    return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
         authorization: this._authorization,
@@ -100,6 +100,6 @@ export class Api {
 }
 
 
-const api = new Api({ authorization: key })
+const api = new Api({ authorization: key, url: url })
 
 export default api;
