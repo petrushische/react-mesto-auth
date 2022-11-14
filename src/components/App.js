@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup/EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup/EditAvatarPopup";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
@@ -61,6 +62,19 @@ function App() {
         setCurrentUser(res)
         closeAllPopups()
       })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+  function handleUpdateAvatar(avatar) {
+    api.changeAvatar(avatar)
+      .then((res) => {
+        setCurrentUser(res)
+        closeAllPopups()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -93,20 +107,10 @@ function App() {
         />
         <span className="popup__error change-four-error"></span>
       </PopupWithForm>
-      <PopupWithForm title='Обновить аватар' name='_avatar_delete' isOpen={isEditAvatarPopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups}>
-        <input
-          name="avatar"
-          id="change-five"
-          type="url"
-          className="popup__input popup__input_avatar_delete"
-          placeholder="Ссылка на картинку"
-          required
-        />
-        <span className="popup__error change-five-error"></span>
-      </PopupWithForm>
+
       <PopupWithForm title='Вы уверены?' name='_card_delete' isOpen={isDeleteCardPopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups} />
       <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={Object.entries(selectedCard).length === 0 ? '' : 'popup__opened'} />
-
+      < EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
     </CurrentUserContext.Provider>
   );
 }
