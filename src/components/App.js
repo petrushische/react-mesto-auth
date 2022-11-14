@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-
+import EditProfilePopup from "./EditProfilePopup/EditProfilePopup";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
@@ -54,6 +54,14 @@ function App() {
     setIsDeleteCardPopupOpen(false)
     setSelectedCard({})
   }
+
+  function handleUpdateUser({ name, about }) {
+    api.userInformationPath({ name, about })
+      .then((res) => {
+        setCurrentUser(res)
+        closeAllPopups()
+      })
+  }
   return (
     <CurrentUserContext.Provider value={currentUser}>
 
@@ -62,31 +70,7 @@ function App() {
         <Main onEditProfile={handleEditAvatarClick} onAddPlace={handleEditProfileClick} onEditAvatar={handleAddPlaceClick} onDeleteCard={handleDeleteCard} onCardClick={handleCardClick} />
         <Footer />
       </div>
-      <PopupWithForm title='Редактировать профиль' name='_change_profile' isOpen={isEditProfilePopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups} >
-        <input
-          name="name"
-          id="change-one"
-          type="text"
-          className="popup__input popup__input_type_name"
-          required
-          minLength="2"
-          maxLength="40"
-          placeholder="Имя"
-        />
-        <span className="popup__error change-one-error"></span>
-
-        <input
-          name="about"
-          id="change-two"
-          type="text"
-          className="popup__input popup__input_type_text"
-          required
-          minLength="2"
-          maxLength="200"
-          placeholder="Описание"
-        />
-        <span className="popup__error change-two-error"></span>
-      </PopupWithForm>
+      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
       <PopupWithForm title='Новое место' name='_cards_add' isOpen={isAddPlacePopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups}>
         <input
           name="name"
