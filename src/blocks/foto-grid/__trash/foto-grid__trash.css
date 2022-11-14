@@ -9,7 +9,7 @@
   background-color: initial;
   padding: 0;
   transition: opacity 1s ease;
-  /*visibility: hidden;*/
+  visibility: hidden;
 }
 
 .foto-grid__trash:hover {

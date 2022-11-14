@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import api from "../utils/api";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 import Header from "./Header/Header";
 import Main from "./Main/Main";
@@ -9,6 +11,17 @@ import ImagePopup from "./ImagePopup/ImagePopup";
 /*import { popupCardsAdd, popupChangeProfile, popupChangeFoto } from "./PopupWithForm/PopupWithForm";*/
 
 function App() {
+  const [currentUser, setCurrentUser] = React.useState({});
+
+  useEffect(() => {
+    api.userInformationGet()
+      .then((res) => {
+        setCurrentUser(res)
+      })
+      .catch((err) => console.log(err))
+  }, [])
+
+
   //состояния для открытия попАпов
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
@@ -42,7 +55,8 @@ function App() {
     setSelectedCard({})
   }
   return (
-    <>
+    <CurrentUserContext.Provider value={currentUser}>
+
       <div className="page">
         <Header />
         <Main onEditProfile={handleEditAvatarClick} onAddPlace={handleEditProfileClick} onEditAvatar={handleAddPlaceClick} onDeleteCard={handleDeleteCard} onCardClick={handleCardClick} />
@@ -108,7 +122,8 @@ function App() {
       </PopupWithForm>
       <PopupWithForm title='Вы уверены?' name='_card_delete' isOpen={isDeleteCardPopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups} />
       <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={Object.entries(selectedCard).length === 0 ? '' : 'popup__opened'} />
-    </>
+
+    </CurrentUserContext.Provider>
   );
 }
 
