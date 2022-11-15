@@ -48,13 +48,9 @@ function App() {
         //////////////////////////////////////////////////////////////////////
         const newCard = cards.filter((elem) => elem._id !== card._id)
         setCards(newCard)
-        /*setCards((state) => state.filter((elem) => elem._id === NewCard._id))*/
         ////////////////////////////////////////////////////////////////////////
       })
   }
-
-
-
 
   //состояния для открытия попАпов
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
