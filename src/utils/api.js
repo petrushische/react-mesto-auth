@@ -48,7 +48,7 @@ export class Api {
       .then(this._returnPromise)
   }
   // Моя карточка
-  cardPost(name, src) {
+  cardPost({ name, src }) {
     return fetch(`${this._url}/cards`, {
       method: 'POST',
       headers: {

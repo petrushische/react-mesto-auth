@@ -3,7 +3,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import trash from '../../images/button-trash.svg'
 import like from '../../images/Like1.svg'
 
-function Card({ card, onDeleteCardForCard, onCardClick, onCardLike, onCardDelete }) {
+function Card({ card, /*onDeleteCardForCard,*/ onCardClick, onCardLike, onCardDelete }) {
  function handleClick() {
   onCardClick(card.link, card.name)
  }
@@ -13,15 +13,10 @@ function Card({ card, onDeleteCardForCard, onCardClick, onCardLike, onCardDelete
  function handleDeleteClick() {
   onCardDelete(card)
  }
+ // показывать корзину или нет
  const userDate = React.useContext(CurrentUserContext)
- // Кнопка удаления
- /* console.log(userDate._id)
-  console.log(card.owner._id)*/
  const isOwn = card.owner._id === userDate._id
- // Лайки ИИИи
- const isLiked = card.likes.some((elem) => {
-  elem._id === userDate._id
- })
+
  return (
   <li className="foto-grid__element">
    <button className={`foto-grid__trash ${isOwn ? 'foto-grid__trash_visible' : ''}`} type="button" style={{ backgroundImage: `url(${trash})` }} onClick={handleDeleteClick}></button>
