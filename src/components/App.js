@@ -50,6 +50,9 @@ function App() {
         setCards(newCard)
         ////////////////////////////////////////////////////////////////////////
       })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   //состояния для открытия попАпов
@@ -122,7 +125,15 @@ function App() {
 
       <div className="page">
         <Header />
-        <Main onEditProfile={handleEditAvatarClick} onAddPlace={handleEditProfileClick} onEditAvatar={handleAddPlaceClick} /*onDeleteCard={handleDeleteCard}*/ onCardClick={handleCardClick} cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete} />
+        <Main onEditProfile={handleEditAvatarClick}
+          onAddPlace={handleEditProfileClick}
+          onEditAvatar={handleAddPlaceClick}
+          /*onDeleteCard={handleDeleteCard}*/
+          onCardClick={handleCardClick}
+          cards={cards}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
+        />
         <Footer />
       </div>
       <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />

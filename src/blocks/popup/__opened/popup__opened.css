@@ -1,5 +1,5 @@
 .popup__opened {
-  display: flex;
-  height: 100%;
+  visibility: visible;
   opacity: 1;
+
 }

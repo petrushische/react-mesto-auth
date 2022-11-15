@@ -21,7 +21,7 @@ function Card({ card, /*onDeleteCardForCard,*/ onCardClick, onCardLike, onCardDe
  return (
   <li className="foto-grid__element">
    <button className={`foto-grid__trash ${isOwn ? 'foto-grid__trash_visible' : ''}`} type="button" style={{ backgroundImage: `url(${trash})` }} onClick={handleDeleteClick}></button>
-   <img className="foto-grid__foto" src={card.link} onClick={handleClick} />
+   <img className="foto-grid__foto" src={card.link} onClick={handleClick} alt={card.name} />
    <div className="foto-grid__title">
     <h2 className="foto-grid__title-text">{card.name}</h2>
     <button className="foto-grid__button" type="button" style={{ backgroundImage: isliked ? `url(${likeActive})` : `url(${like})` }} onClick={handleLikeClick}></button>
