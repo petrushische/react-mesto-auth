@@ -1,18 +1,21 @@
 import React, { useEffect } from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
 import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup/EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup/EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup/AddPlacePopup";
+import InfoTooltip from "./InfoTooltip/InfoTooltip";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
-import Footer from "./Footer/Footer";
-
-
+import Login from "./Login/Login";
+import Register from "./Register/Register";
 import ImagePopup from "./ImagePopup/ImagePopup";
 /*import { popupCardsAdd, popupChangeProfile, popupChangeFoto } from "./PopupWithForm/PopupWithForm";*/
+import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
 
 function App() {
+  const [loggedIn, setLoggedIn] = React.useState(true);
   const [currentUser, setCurrentUser] = React.useState({});
   useEffect(() => {
     api.userInformationGet()
@@ -122,27 +125,45 @@ function App() {
   }
   return (
     <CurrentUserContext.Provider value={currentUser}>
-
       <div className="page">
         <Header />
-        <Main onEditProfile={handleEditAvatarClick}
-          onAddPlace={handleEditProfileClick}
-          onEditAvatar={handleAddPlaceClick}
-          /*onDeleteCard={handleDeleteCard}*/
-          onCardClick={handleCardClick}
-          cards={cards}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
-        />
-        <Footer />
+        <Switch>
+          <ProtectedRoute
+            path="/"
+            exact
+            loggedIn={loggedIn}
+            component={Main}
+            onEditProfile={handleEditAvatarClick}
+            onAddPlace={handleEditProfileClick}
+            onEditAvatar={handleAddPlaceClick}
+            onCardClick={handleCardClick}
+            cards={cards}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
+          />
+          <Route path="/sign-up">
+            <Register />
+          </Route>
+          <Route path="/sign-in">
+            <Login />
+          </Route>
+          <Route>
+            {loggedIn ? (<Redirect to="/" />) : (<Redirect to="/sign-in" />)}
+          </Route>
+        </Switch>
       </div>
       <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
       {/*<PopupWithForm title='Вы уверены?' name='_card_delete' isOpen={isDeleteCardPopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups} />*/}
       <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={Object.entries(selectedCard).length === 0 ? '' : 'popup__opened'} />
       < EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
       <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleNewCard} />
-    </CurrentUserContext.Provider>
+      <InfoTooltip />
+    </CurrentUserContext.Provider >
+
   );
 }
 
 export default App;
+
+
+
