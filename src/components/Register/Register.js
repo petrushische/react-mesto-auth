@@ -1,9 +1,8 @@
 import React from "react";
-
+import { Link, Route } from 'react-router-dom';
 export default function Register() {
  return (
   <div className="auth">
-   <button type="button" className='auth__button'>Войти</button>
    <h2 className="auth__title">Регистрация</h2>
    <form className='auth__form' name="Login">
 
@@ -21,7 +20,7 @@ export default function Register() {
     </input>
    </form>
    <button type="save" className='auth__button-save'>Зарегестрироваться</button>
-   <h3 className='auth__subtitle'>Уже зарегистрированы? <button type="button" className="auth__subtitle-button">Войти</button></h3>
+   <h3 className='auth__subtitle'>Уже зарегистрированы? <Route path="/sign-up"><Link to='sign-in' className="auth__subtitle-button">Войти</Link></Route></h3>
   </div>
 
  )

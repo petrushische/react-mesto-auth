@@ -3,7 +3,6 @@ import React from "react";
 export default function Login() {
  return (
   <div className="auth">
-   <button type="button" className='auth__button'>Регистрация</button>
    <h2 className="auth__title">Вход</h2>
    <form className='auth__form' name="Login">
 

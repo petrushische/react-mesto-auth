@@ -82,6 +82,7 @@ function App() {
     setSelectedCard({ url, text })
   }
 
+
   // обработчик закрытия поп апов
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false)
