@@ -1,44 +1,47 @@
 import React from "react";
-import { Link, Route } from 'react-router-dom';
+import { Link, Route, Redirect } from 'react-router-dom';
 
-export default function Register() {
+export default function Register({ handleRegistr, isLoggedIn }) {
+ const [userData, setUserData] = React.useState({
+  email: '',
+  password: '',
+ })
+ const [messag, setMessage] = React.useState('');
 
- const [email, setEmail] = React.useState('')
- const [password, setPassword] = React.useState('')
-
- function handleChangeInput(evt) {
-  if (evt.target.type === 'email') {
-   console.log(evt.target.value)
-   setEmail(evt.target.value)
-  } else if (evt.target.type === 'password') {
-   console.log(evt.target.value)
-   setPassword(evt.target.value)
-  }
-  return
+ function handleChange(evt) {
+  const { name, value } = evt.target
+  setUserData({
+   ...userData,
+   [name]: value
+  })
  }
  function handleSubmit(evt) {
-  evt.preventDefault()
-  // сюда добавим логику обработки формы регистрации
+  evt.preventDefault();
+  if (!userData.email || !userData.password) {
+   return
+  }
+  handleRegistr(userData.email, userData.password)
  }
-
-
+ if (isLoggedIn) {
+  return <Redirect to="/" />
+ }
  return (
   <div className="auth">
    <h2 className="auth__title">Регистрация</h2>
    <form className='auth__form' name="Login" noValidate onSubmit={handleSubmit}>
     <input
-     value={email || ''}
-     onChange={handleChangeInput}
+     value={userData.email}
+     onChange={handleChange}
      className='auth__input'
-     name="Login-email"
+     name="email"
      type="email"
      placeholder="Email">
     </input>
     <input
-     value={password || ''}
-     onChange={handleChangeInput}
+     value={userData.password}
+     onChange={handleChange}
      className='auth__input'
-     name="password-email"
+     name="password"
      type="password"
      placeholder="Пароль">
     </input>

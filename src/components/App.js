@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -13,9 +13,9 @@ import Register from "./Register/Register";
 import ImagePopup from "./ImagePopup/ImagePopup";
 /*import { popupCardsAdd, popupChangeProfile, popupChangeFoto } from "./PopupWithForm/PopupWithForm";*/
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
+import * as Auth from './Author/Author'
 
 function App() {
-  const [loggedIn, setLoggedIn] = React.useState(true);
   const [currentUser, setCurrentUser] = React.useState({});
   useEffect(() => {
     api.userInformationGet()
@@ -125,6 +125,75 @@ function App() {
         console.lof(err)
       })
   }
+
+  // Спринт 12
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
+  const [userData, setUserData] = React.useState({})
+  const cbAuthnticate = useCallback((data) => {
+    localStorage.setItem('jwt', data.jwt)
+    setLoggedIn(true)
+    setUserData(data.user)
+  }, [])
+
+
+  const tokenCheck = useCallback(async () => {
+    try {
+      setLoading(true)
+      let jwt = localStorage.getItem('jwt');
+      if (!jwt) {
+        throw new Error('no token')
+      }
+      const user = await Auth.checkToken(jwt);
+      if (!user) {
+        throw new Error('invalid user')
+      }
+      if (user) {
+        setLoggedIn(true)
+        setUserData(user)
+      }
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  const cbLogin = useCallback(async (email, password) => {
+    try {
+      setLoading(true)
+      const data = await Auth.authorize(email, password)
+      if (!data) {
+        throw new Error('Неверное имя или пароль')
+      }
+      if (data.jwt) {
+        cbAuthnticate(data)
+      }
+    } catch {
+
+    } finally {
+      setLoading(false)
+    }
+  }, [cbAuthnticate])
+  const cbRegister = useCallback(async (email, password) => {
+    try {
+      setLoading(true)
+      const data = await Auth.register(email, password);
+      cbAuthnticate(data)
+      return data;
+    } catch {
+
+    } finally {
+      setLoading(false)
+    }
+  }, [cbAuthnticate])
+
+
+
+  useEffect(() => {
+    tokenCheck()
+  }, [tokenCheck])
+  if (loading) {
+    return 'Loading'
+  }
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -144,10 +213,10 @@ function App() {
             onCardDelete={handleCardDelete}
           />
           <Route path="/sign-up">
-            <Register />
+            <Register handleRegistr={cbRegister} isLoggedIn={loggedIn} />
           </Route>
           <Route path="/sign-in">
-            <Login />
+            <Login handleLogin={cbLogin} isLoggedIn={loggedIn} />
           </Route>
           <Route>
             {loggedIn ? (<Redirect to="/" />) : (<Redirect to="/sign-in" />)}

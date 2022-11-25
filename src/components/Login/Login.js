@@ -1,20 +1,47 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
+export default function Login({ handleLogin, isLoggedIn }) {
+ const [userData, setUserData] = React.useState({
+  email: '',
+  password: '',
+ })
+ const [messag, setMessage] = React.useState('');
 
-export default function Login() {
+ function handleChange(evt) {
+  const { name, value } = evt.target
+  setUserData({
+   ...userData,
+   [name]: value
+  })
+ }
+ function handleSubmit(evt) {
+  evt.preventDefault();
+  if (!userData.email || !userData.password) {
+   return
+  }
+  handleLogin(userData.email, userData.password)
+ }
+ if (isLoggedIn) {
+  return <Redirect to="/" />
+ }
  return (
   <div className="auth">
    <h2 className="auth__title">Вход</h2>
-   <form className='auth__form' name="Login">
+   <form className='auth__form' name="Login" onSubmit={handleSubmit}>
 
     <input
+     value={userData.email}
+     onChange={handleChange}
      className='auth__input'
-     name="Login-email"
+     name="email"
      type="email"
      placeholder="Email">
     </input>
     <input
+     value={userData.password}
+     onChange={handleChange}
      className='auth__input'
-     name="password-email"
+     name="password"
      type="password"
      placeholder="Пароль">
     </input>
