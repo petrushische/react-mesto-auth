@@ -18,8 +18,8 @@ export default function Login() {
      type="password"
      placeholder="Пароль">
     </input>
+    <button type="save" className='auth__button-save'>Войти</button>
    </form>
-   <button type="save" className='auth__button-save'>Войти</button>
   </div>
  )
 }

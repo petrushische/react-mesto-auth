@@ -63,6 +63,7 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   /*const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = React.useState(false);*/
+
   const [selectedCard, setSelectedCard] = React.useState({});
 
   function handleEditAvatarClick() {
