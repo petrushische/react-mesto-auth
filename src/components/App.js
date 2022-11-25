@@ -122,82 +122,73 @@ function App() {
         closeAllPopups()
       })
       .catch((err) => {
-        console.lof(err)
+        console.log(err)
       })
   }
 
   // Спринт 12
   const [loggedIn, setLoggedIn] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
   const [userData, setUserData] = React.useState({})
   const cbAuthnticate = useCallback((data) => {
-    localStorage.setItem('jwt', data.jwt)
-    setLoggedIn(true)
-    setUserData(data.user)
+    localStorage.setItem('jwt', data.token)
+    setLoggedIn(true);
   }, [])
 
 
   const tokenCheck = useCallback(async () => {
     try {
-      setLoading(true)
-      let jwt = localStorage.getItem('jwt');
-      if (!jwt) {
+      let token = localStorage.getItem('jwt');
+      if (!token) {
         throw new Error('no token')
       }
-      const user = await Auth.checkToken(jwt);
+      const user = await Auth.checkToken(token);
       if (!user) {
         throw new Error('invalid user')
       }
       if (user) {
         setLoggedIn(true)
-        setUserData(user)
+        setUserData(user.data)
       }
-    } finally {
-      setLoading(false)
+    } catch (err) {
+
     }
   }, [])
-
   const cbLogin = useCallback(async (email, password) => {
     try {
-      setLoading(true)
       const data = await Auth.authorize(email, password)
       if (!data) {
         throw new Error('Неверное имя или пароль')
       }
-      if (data.jwt) {
+      if (data.token) {
         cbAuthnticate(data)
       }
     } catch {
 
-    } finally {
-      setLoading(false)
     }
   }, [cbAuthnticate])
+
   const cbRegister = useCallback(async (email, password) => {
     try {
-      setLoading(true)
-      const data = await Auth.register(email, password);
+      const data = await Auth.register(email, password)
       cbAuthnticate(data)
-      return data;
     } catch {
 
-    } finally {
-      setLoading(false)
     }
   }, [cbAuthnticate])
 
-
+  const cbLogout = useCallback(() => {
+    setLoggedIn(false)
+    localStorage.clear()
+    setUserData({})
+  })
 
   useEffect(() => {
     tokenCheck()
   }, [tokenCheck])
-  if (loading) {
-    return 'Loading'
-  }
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header />
+        <Header userData={userData} cbLogout={cbLogout} />
         <Switch>
           <ProtectedRoute
             path="/"
@@ -218,10 +209,10 @@ function App() {
           <Route path="/sign-in">
             <Login handleLogin={cbLogin} isLoggedIn={loggedIn} />
           </Route>
-          <Route>
-            {loggedIn ? (<Redirect to="/" />) : (<Redirect to="/sign-in" />)}
-          </Route>
         </Switch>
+        <Route>
+          {loggedIn ? (<Redirect to="/" />) : (<Redirect to="/sign-in" />)}
+        </Route>
       </div>
       <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
       {/*<PopupWithForm title='Вы уверены?' name='_card_delete' isOpen={isDeleteCardPopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups} />*/}

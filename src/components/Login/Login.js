@@ -28,7 +28,6 @@ export default function Login({ handleLogin, isLoggedIn }) {
   <div className="auth">
    <h2 className="auth__title">Вход</h2>
    <form className='auth__form' name="Login" onSubmit={handleSubmit}>
-
     <input
      value={userData.email}
      onChange={handleChange}
