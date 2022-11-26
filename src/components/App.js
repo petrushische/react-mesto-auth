@@ -13,7 +13,7 @@ import Register from "./Register/Register";
 import ImagePopup from "./ImagePopup/ImagePopup";
 /*import { popupCardsAdd, popupChangeProfile, popupChangeFoto } from "./PopupWithForm/PopupWithForm";*/
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
-import * as Auth from './Author/Author'
+import * as Auth from '../utils/Author'
 
 function App() {
 
@@ -149,11 +149,12 @@ function App() {
   }
   const tokenCheck = useCallback(async () => {
     try {
-      let token = localStorage.getItem('jwt');
+      const token = localStorage.getItem('jwt');
       if (!token) {
         throw new Error('no token')
       }
       const user = await Auth.checkToken(token);
+
       if (!user) {
         throw new Error('invalid user')
       }
