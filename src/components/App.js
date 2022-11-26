@@ -16,6 +16,8 @@ import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
 import * as Auth from './Author/Author'
 
 function App() {
+
+
   const [currentUser, setCurrentUser] = React.useState({});
   useEffect(() => {
     api.userInformationGet()
@@ -23,17 +25,22 @@ function App() {
         setCurrentUser(res)
       })
       .catch((err) => console.log(err))
+
+
   }, [])
 
   //1
   const [cards, setCards] = React.useState([]);
   //2
   useEffect(() => {
+
     api.cards()
       .then((res) => {
         setCards(res)
       })
       .catch((err) => console.log(`Ошибка${err}`))
+
+
   }, [])
   //3
   function handleCardLike(card) {
@@ -91,6 +98,7 @@ function App() {
     setIsEditAvatarPopupOpen(false)
     /*setIsDeleteCardPopupOpen(false)*/
     setSelectedCard({})
+    setInfoTooltip(false)
   }
   // обновление данных пользователя
   function handleUpdateUser({ name, about }) {
@@ -127,6 +135,8 @@ function App() {
   }
 
   // Спринт 12
+  const [checkValid, setCheckValid] = React.useState();
+  const [infoTooltip, setInfoTooltip] = React.useState(false)
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [userData, setUserData] = React.useState({})
   const cbAuthnticate = useCallback((data) => {
@@ -134,7 +144,9 @@ function App() {
     setLoggedIn(true);
   }, [])
 
-
+  function handleinfoTooltip() {
+    setInfoTooltip(true)
+  }
   const tokenCheck = useCallback(async () => {
     try {
       let token = localStorage.getItem('jwt');
@@ -170,9 +182,9 @@ function App() {
   const cbRegister = useCallback(async (email, password) => {
     try {
       const data = await Auth.register(email, password)
-      cbAuthnticate(data)
-    } catch {
-
+      localStorage.setItem('jwt', data.token)
+    } catch (res) {
+      setCheckValid(res)
     }
   }, [cbAuthnticate])
 
@@ -204,22 +216,22 @@ function App() {
             onCardDelete={handleCardDelete}
           />
           <Route path="/sign-up">
-            <Register handleRegistr={cbRegister} isLoggedIn={loggedIn} />
+            <Register handleRegistr={cbRegister} isLoggedIn={loggedIn} handleinfoTooltip={handleinfoTooltip} />
           </Route>
           <Route path="/sign-in">
             <Login handleLogin={cbLogin} isLoggedIn={loggedIn} />
           </Route>
         </Switch>
-        <Route>
+        {/*<Route>
           {loggedIn ? (<Redirect to="/" />) : (<Redirect to="/sign-in" />)}
-        </Route>
+        </Route>*/}
       </div>
       <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
       {/*<PopupWithForm title='Вы уверены?' name='_card_delete' isOpen={isDeleteCardPopupOpen ? 'popup__opened' : ''} onClose={closeAllPopups} />*/}
       <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={Object.entries(selectedCard).length === 0 ? '' : 'popup__opened'} />
       < EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
       <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleNewCard} />
-      <InfoTooltip />
+      <InfoTooltip isOpen={infoTooltip ? 'popup__opened' : ''} closePopup={closeAllPopups} checkValid={checkValid} />
     </CurrentUserContext.Provider >
 
   );

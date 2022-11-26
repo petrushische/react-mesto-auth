@@ -29,6 +29,7 @@ export default function Login({ handleLogin, isLoggedIn }) {
    <h2 className="auth__title">Вход</h2>
    <form className='auth__form' name="Login" onSubmit={handleSubmit}>
     <input
+     required
      value={userData.email}
      onChange={handleChange}
      className='auth__input'
@@ -37,6 +38,7 @@ export default function Login({ handleLogin, isLoggedIn }) {
      placeholder="Email">
     </input>
     <input
+     required
      value={userData.password}
      onChange={handleChange}
      className='auth__input'

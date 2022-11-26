@@ -33,4 +33,4 @@ export const checkToken = (token) => {
 }
 
 
-const checkResponse = (res) => res.ok ? res.json() : Promise.reject(`Ошибка : ${res.status}`)
+const checkResponse = (res) => res.ok ? res.json() : Promise.reject(res.status)

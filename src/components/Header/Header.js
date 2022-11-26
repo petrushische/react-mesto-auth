@@ -16,7 +16,7 @@ function Header({ userData, cbLogout }) {
     <Link to='sign-in' className="header__link">Войти</Link>
    </Route>
    <Route exact path="/">
-    <p className="header__user-data">{userData.email}</p>
+    <p className="header__user-data">{` ${userData.email}`}</p>
     <Link to='sign-in' className="header__link" onClick={cbLogout}>Выйти</Link>
    </Route>
   </header>

@@ -1,7 +1,8 @@
 import React from "react";
-import { Link, Route, Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
+import { Link, Route, Redirect, } from 'react-router-dom';
 
-export default function Register({ handleRegistr, isLoggedIn, goSignIn }) {
+export default function Register({ handleRegistr, handleinfoTooltip }) {
  const [userData, setUserData] = React.useState({
   email: '',
   password: '',
@@ -21,10 +22,13 @@ export default function Register({ handleRegistr, isLoggedIn, goSignIn }) {
    return
   }
   handleRegistr(userData.email, userData.password)
+  handleClick()
+  handleinfoTooltip();
  }
+ const history = useHistory();
 
- if (isLoggedIn) {
-  return <Redirect to="/" />
+ function handleClick() {
+  history.push('/sign-in');
  }
 
  return (
@@ -32,6 +36,7 @@ export default function Register({ handleRegistr, isLoggedIn, goSignIn }) {
    <h2 className="auth__title">Регистрация</h2>
    <form className='auth__form' name="Register" onSubmit={handleSubmit}>
     <input
+     required
      value={userData.email}
      onChange={handleChange}
      className='auth__input'
@@ -40,6 +45,7 @@ export default function Register({ handleRegistr, isLoggedIn, goSignIn }) {
      placeholder="Email">
     </input>
     <input
+     required
      value={userData.password}
      onChange={handleChange}
      className='auth__input'
@@ -47,7 +53,7 @@ export default function Register({ handleRegistr, isLoggedIn, goSignIn }) {
      type="password"
      placeholder="Пароль">
     </input>
-    <button type="save" className='auth__button-save' >Зарегестрироваться</button>
+    <button type="save" className='auth__button-save'>Зарегестрироваться</button>
    </form>
    <h3 className='auth__subtitle'>Уже зарегистрированы? <Route path="/sign-up"><Link to='sign-in' className="auth__subtitle-button">Войти</Link></Route></h3>
   </div>
