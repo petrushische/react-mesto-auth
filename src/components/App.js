@@ -174,6 +174,7 @@ function App() {
       }
       if (data.token) {
         cbAuthnticate(data)
+        console.log(data)
       }
     } catch {
 
